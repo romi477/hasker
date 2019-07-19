@@ -13,7 +13,7 @@
 
 #### Build:
     $ cd hasker
-    $ make prod (spoiler: don't work)
+    $ make prod (spoiler: it doesn't work)
 
 
 
