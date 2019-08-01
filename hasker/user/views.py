@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 class RegistrationFormView(FormView):
     form_class = PersonForm
     success_url = '/hasker/'
-    template_name = 'authorization/registration.html'
+    template_name = 'user/registration.html'
 
     def form_valid(self, form):
         self.user = form.save()
@@ -31,7 +31,7 @@ class UpdateProfile(View):
     def get(self, request):
         person = Person.objects.get(username=request.user.username)
         bound_form = PersonProfile(instance=person)
-        return render(request, 'authorization/profile_update.html', {'form': bound_form, 'person': person})
+        return render(request, 'user/profile_update.html', {'form': bound_form, 'person': person})
 
     def post(self, request):
         person = Person.objects.get(username=request.user.username)
@@ -40,12 +40,12 @@ class UpdateProfile(View):
         if bound_form.is_valid():
             bound_form.save()
             return redirect('person_profile')
-        return render(request, 'authorization/profile_update.html', {'form': bound_form, 'person': person})
+        return render(request, 'user/profile_update.html', {'form': bound_form, 'person': person})
 
 
 class LoginFormView(FormView):
     form_class = AuthenticationForm
-    template_name = 'authorization/login.html'
+    template_name = 'user/login.html'
     success_url = '/hasker/'
 
     def form_valid(self, form):
@@ -67,14 +67,14 @@ class LogOutFormView(View):
 @login_required(login_url=settings.LOGIN_URL)
 def person_profile(request):
     person = Person.objects.get(username=request.user.username)
-    return render(request, 'authorization/_profile.html', {'person': person})
+    return render(request, 'user/_profile.html', {'person': person})
 
 
 def person_profile_questions(request):
     if request.user.is_authenticated:
-        model = apps.get_model('forum', 'Question')
+        model = apps.get_model('user', 'Question')
         questions = model.objects.filter(author__username=request.user.username)
-        return render(request, 'authorization/_questions.html', {'questions': questions})
+        return render(request, 'user/_questions.html', {'questions': questions})
     return HttpResponseForbidden('403, Forbidden')
 
 
@@ -83,6 +83,6 @@ def person_free_info(request, nickname):
     if request.user.username == nickname:
         return redirect('person_profile')
     person = get_object_or_404(Person, username=nickname)
-    return render(request, 'authorization/_profile.html', {'person': person, 'nickname': nickname})
+    return render(request, 'user/_profile.html', {'person': person, 'nickname': nickname})
 
 

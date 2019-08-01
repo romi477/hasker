@@ -1,4 +1,4 @@
-{% extends 'forum/base_forum.html' %}
+{% extends 'questions/base_questions.html' %}
 
 {% load crispy_forms_tags %}
 
@@ -64,7 +64,7 @@
             </div>
         {% endfor %}
 
-        {% include 'forum/pagination.html' %}
+        {% include 'questions/pagination.html' %}
 
         {% if reply_form %}
         <form method="post" action="{% url 'add_reply' slug=question.slug %}">

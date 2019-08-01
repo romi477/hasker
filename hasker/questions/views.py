@@ -12,7 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 
 class Index(ListView):
     model = Question
-    template_name = 'forum/index.html'
+    template_name = 'questions/index.html'
     context_object_name = 'questions'
     paginate_by = 20
 
@@ -26,7 +26,7 @@ class Index(ListView):
 
 class TagListView(ListView):
     model = Tag
-    template_name = 'forum/tag_list.html'
+    template_name = 'questions/tag_list.html'
     context_object_name = 'tag_list'
     paginate_by = 20
 
@@ -43,17 +43,17 @@ def hot_questions(request):
     """
     questions = Question.objects.order_by('votes', '-pub_date')[:10]
     q_sorted = sorted(set(questions), key=lambda question: -question.total_votes)
-    return render(request, 'forum/questions_list.html', {'questions': q_sorted})
+    return render(request, 'questions/questions_list.html', {'questions': q_sorted})
 
 
 def tag_questions(request, tag_name):
     questions = Question.objects.filter(tags__name=tag_name)
-    return render(request, 'forum/tag_questions.html', {'questions': questions, 'tag': tag_name})
+    return render(request, 'questions/tag_questions.html', {'questions': questions, 'tag': tag_name})
 
 
 class QuestionDetail(DetailView, MultipleObjectMixin):
     model = Question
-    template_name = 'forum/question_detail.html'
+    template_name = 'questions/question_detail.html'
     context_object_name = 'question'
     paginate_by = 20
 
@@ -120,7 +120,7 @@ def add_medal(request, slug, reply_pk):
 
 class ReplyCreate(FormView):
     form_class = ReplyForm
-    template_name = 'forum/question_detail.html'
+    template_name = 'questions/question_detail.html'
 
     def get_success_url(self):
         return reverse('question_detail', kwargs={'slug': self.kwargs['slug']})
@@ -140,7 +140,7 @@ class ReplyCreate(FormView):
 
 class QuestionCreate(FormView):
     form_class = QuestionForm
-    template_name = 'forum/add_question.html'
+    template_name = 'questions/add_question.html'
 
     def get_success_url(self):
         return reverse('index')

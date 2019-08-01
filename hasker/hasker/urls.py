@@ -9,8 +9,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', redirect_index),
     path('admin/', admin.site.urls),
-    path('hasker/', include('forum.urls')),
-    path('hasker/auth/', include('authorization.urls')),
+    path('hasker/', include('questions.urls')),
+    path('hasker/auth/', include('user.urls')),
     path('hasker/api/', include('_api.urls')),
 ] \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
