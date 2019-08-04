@@ -34,6 +34,9 @@ class Question(models.Model):
     class Meta:
         ordering = ('-pub_date',)
 
+    def valid_replies(self):
+        return self.replies
+
     def __str__(self):
         return f'{self.title[:11]} - {self.author}'
     

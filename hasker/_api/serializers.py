@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from forum.models import Question, Reply
-from authorization.models import Person
+from account.models import Person
 
 
 class AuthorSerializer(serializers.ModelSerializer):

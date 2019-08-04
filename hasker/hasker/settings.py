@@ -9,7 +9,7 @@ class Base(Configuration):
     SECRET_KEY = 'ak8+)_h8f7-p*%m8t=3&ia)tz8i76_hyp80is11c-6-lxl=d7-'
     
     ALLOWED_HOSTS = []
-    
+
     INSTALLED_APPS = [
         'django.contrib.admin',
         'django.contrib.auth',
@@ -17,13 +17,15 @@ class Base(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+
         'rest_framework',
         'crispy_forms',
+
+        'account',
         'forum',
-        'authorization',
         '_api',
     ]
-    
+
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
@@ -36,7 +38,7 @@ class Base(Configuration):
     
     ROOT_URLCONF = 'hasker.urls'
     
-    AUTH_USER_MODEL = 'authorization.Person'
+    AUTH_USER_MODEL = 'account.Person'
     
     TEMPLATES = [
         {
