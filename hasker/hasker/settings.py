@@ -108,7 +108,7 @@ class Base(Configuration):
     
     CRISPY_TEMPLATE_PACK = 'bootstrap4'
     
-    LOGIN_URL = '/hasker/auth/login/'
+    LOGIN_URL = '/hasker/account/login/'
     
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'media')

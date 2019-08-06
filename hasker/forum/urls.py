@@ -5,8 +5,8 @@ from .views import *
 urlpatterns = [
     path('', Index.as_view(), name='index'),
     path('tags/', TagListView.as_view(), name='tags'),
-    path('hot-questions/', hot_questions, name='hot_questions'),
-    path('tags/<tag_name>/', tag_questions, name='tag_questions'),
+    path('hot-questions/', HotQuestions.as_view(), name='hot_questions'),
+    path('tags/<tag_name>/', TagQuestions.as_view(), name='tag_questions'),
     path('add-question/', QuestionCreate.as_view(), name='add_question'),
     path('question/<slug>/', QuestionDetail.as_view(), name='question_detail'),
 

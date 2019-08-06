@@ -1,3 +1,4 @@
+from django.views import View
 from django.db.models import Q
 from django.shortcuts import render
 from django.shortcuts import reverse
@@ -36,19 +37,24 @@ class TagListView(ListView):
         return t_sorted
 
 
-def hot_questions(request):
-    """
-    отношение GenericRelation(Vote) дублирует записи в кверисете по количеству votes,
-    distinct() для  sqlite не отрабатывал, пришлось взять set()
-    """
-    questions = Question.objects.order_by('votes', '-pub_date')[:10]
-    q_sorted = sorted(set(questions), key=lambda question: -question.total_votes)
-    return render(request, 'forum/questions_list.html', {'questions': q_sorted})
+class HotQuestions(View):
+    
+    def get(self, request, *args, **kwargs):
+        """
+        отношение GenericRelation(Vote) дублирует записи в кверисете по количеству votes.
+        distinct() для  sqlite не отрабатывал, пришлось взять set()
+        """
+        questions = Question.objects.order_by('votes', '-pub_date')[:10]
+        q_sorted = sorted(set(questions), key=lambda question: -question.total_votes)
+        return render(request, 'forum/questions_list.html', {'questions': q_sorted})
 
 
-def tag_questions(request, tag_name):
-    questions = Question.objects.filter(tags__name=tag_name)
-    return render(request, 'forum/tag_questions.html', {'questions': questions, 'tag': tag_name})
+class TagQuestions(View):
+    
+    def get(self, request, *args, **kwargs):
+        tag_name = kwargs.get('tag_name')
+        questions = Question.objects.filter(tags__name=tag_name)
+        return render(request, 'forum/tag_questions.html', {'questions': questions, 'tag': tag_name})
 
 
 class QuestionDetail(DetailView, MultipleObjectMixin):
@@ -134,9 +140,6 @@ class ReplyCreate(FormView):
         self.reply.send_email(f'Hi, there is new reply: {link}')
         return super(ReplyCreate, self).form_valid(form)
 
-    def form_invalid(self, form):
-        return super(ReplyCreate, self).form_invalid(form)
-
 
 class QuestionCreate(FormView):
     form_class = QuestionForm
@@ -151,8 +154,3 @@ class QuestionCreate(FormView):
         tag_list = form.cleaned_data['tags']
         self.question.save(tag_list=tag_list)
         return super(QuestionCreate, self).form_valid(form)
-    
-    def form_invalid(self, form):
-        return super(QuestionCreate, self).form_invalid(form)
-
-

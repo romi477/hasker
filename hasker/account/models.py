@@ -13,3 +13,6 @@ class Person(AbstractUser):
     def __str__(self):
         return f'{self.username} <{self.email}>'
 
+    def get_ava(self):
+        return self.avatar
+    

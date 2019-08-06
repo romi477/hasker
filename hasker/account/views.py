@@ -1,15 +1,13 @@
 from .models import Person
 from django.apps import apps
 from django.views import View
-from django.conf import settings
+from django.urls import reverse
 from django.shortcuts import render
 from .forms import PersonForm, PersonProfile
 from django.contrib.auth import login, logout
-from django.http import HttpResponseForbidden
-from django.views.generic.edit import FormView
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import FormView, UpdateView
 
 
 class RegistrationFormView(FormView):
@@ -22,25 +20,18 @@ class RegistrationFormView(FormView):
         login(self.request, self.user)
         return super(RegistrationFormView, self).form_valid(form)
 
-    def form_invalid(self, form):
-        return super(RegistrationFormView, self).form_invalid(form)
 
+class UpdateProfile(UpdateView):
+    model = Person
+    form_class = PersonProfile
+    template_name = 'account/person_update_form.html'
 
-class UpdateProfile(View):
+    def get_object(self, queryset=None):
+        person = Person.objects.get(id=self.request.user.id)
+        return person
     
-    def get(self, request):
-        person = Person.objects.get(username=request.user.username)
-        bound_form = PersonProfile(instance=person)
-        return render(request, 'account/profile_update.html', {'form': bound_form, 'person': person})
-
-    def post(self, request):
-        person = Person.objects.get(username=request.user.username)
-        bound_form = PersonProfile(request.POST, request.FILES, instance=person)
-        
-        if bound_form.is_valid():
-            bound_form.save()
-            return redirect('person_profile')
-        return render(request, 'account/profile_update.html', {'form': bound_form, 'person': person})
+    def get_success_url(self):
+        return reverse('person_profile')
 
 
 class LoginFormView(FormView):
@@ -53,9 +44,6 @@ class LoginFormView(FormView):
         login(self.request, self.user)
         return super(LoginFormView, self).form_valid(form)
 
-    def form_invalid(self, form):
-        return super(LoginFormView, self).form_invalid(form)
-
 
 class LogOutFormView(View):
 
@@ -64,25 +52,28 @@ class LogOutFormView(View):
         return redirect('index')
 
 
-@login_required(login_url=settings.LOGIN_URL)
-def person_profile(request):
-    person = Person.objects.get(username=request.user.username)
-    return render(request, 'account/_profile.html', {'person': person})
+class PersonProfile(View):
+    
+    def get(self, request, *args, **kwargs):
+        person = Person.objects.get(id=request.user.id)
+        return render(request, 'account/_profile.html', {'person': person})
 
 
-def person_profile_questions(request):
-    if request.user.is_authenticated:
+class PersonQuestions(View):
+    
+    def get(self, request, *args, **kwargs):
+        
         model = apps.get_model('forum', 'Question')
-        questions = model.objects.filter(author__username=request.user.username)
+        questions = model.objects.filter(author__id=request.user.id)
         return render(request, 'account/_questions.html', {'questions': questions})
-    return HttpResponseForbidden('403, Forbidden')
+    
 
-
-@login_required(login_url=settings.LOGIN_URL)
-def person_free_info(request, nickname):
-    if request.user.username == nickname:
-        return redirect('person_profile')
-    person = get_object_or_404(Person, username=nickname)
-    return render(request, 'account/_profile.html', {'person': person, 'nickname': nickname})
-
+class PersonInfo(View):
+    
+    def get(self, request, *args, **kwargs):
+        nickname = kwargs.get('nickname')
+        if request.user.username == nickname:
+            return redirect('person_profile')
+        person = get_object_or_404(Person, username=nickname)
+        return render(request, 'account/_profile.html', {'person': person, 'nickname': nickname})
 

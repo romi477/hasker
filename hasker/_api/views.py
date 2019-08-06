@@ -46,3 +46,14 @@ def question_replies(request, slug):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+def question_good_replies(request, slug):
+    try:
+        question = Question.objects.get(slug=slug)
+    except Question.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    good_replies = Reply.objects.filter(related_q__slug=question.slug, flag=True).order_by('pub_date')
+    serializer = ReplySerializer(good_replies, many=True)
+    return Response(serializer.data)
