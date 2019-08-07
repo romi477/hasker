@@ -7,8 +7,6 @@ class Base(Configuration):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
     SECRET_KEY = 'ak8+)_h8f7-p*%m8t=3&ia)tz8i76_hyp80is11c-6-lxl=d7-'
-    
-    ALLOWED_HOSTS = []
 
     INSTALLED_APPS = [
         'django.contrib.admin',

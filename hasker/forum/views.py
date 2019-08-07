@@ -1,7 +1,7 @@
 from django.views import View
+from django.http import HttpResponseServerError, HttpResponseForbidden, HttpResponseNotFound
 from django.db.models import Q
 from django.shortcuts import render
-from django.shortcuts import reverse
 from .forms import QuestionForm, ReplyForm
 from .models import Question, Tag, Reply, Vote
 from django.views.generic.edit import FormView

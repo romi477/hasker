@@ -1,6 +1,12 @@
-from django.urls import path
-from .views import *
+from django.utils.functional import curry
 
+from .views import *
+from django.urls import path
+from hasker.views import Custom403, Custom404, custom500
+
+handler403 = Custom403.as_view()
+handler404 = Custom404.as_view()
+handler500 = custom500
 
 urlpatterns = [
     path('', Index.as_view(), name='index'),

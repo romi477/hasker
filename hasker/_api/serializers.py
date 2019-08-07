@@ -15,7 +15,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Question
-        fields = ['id', 'title', 'content', 'author', 'pub_date']
+        fields = ['id', 'title', 'content', 'author', 'pub_date', 'slug']
         
         
 class ReplySerializer(serializers.ModelSerializer):
