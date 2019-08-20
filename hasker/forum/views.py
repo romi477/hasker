@@ -1,6 +1,6 @@
 from django.views import View
-from django.http import HttpResponseServerError, HttpResponseForbidden, HttpResponseNotFound
 from django.db.models import Q
+from django.urls import reverse
 from django.shortcuts import render
 from .forms import QuestionForm, ReplyForm
 from .models import Question, Tag, Reply, Vote

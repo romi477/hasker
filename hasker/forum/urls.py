@@ -1,5 +1,3 @@
-from django.utils.functional import curry
-
 from .views import *
 from django.urls import path
 from hasker.views import Custom403, Custom404, custom500
@@ -25,3 +23,7 @@ urlpatterns = [
     path('question/<slug>/<int:reply_pk>/like/', like, name='reply_like'),
     path('question/<slug>/<int:reply_pk>/dislike/', dislike, name='reply_dislike')
 ]
+
+
+
+

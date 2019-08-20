@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.utils.functional import curry
 from django.views.defaults import server_error
 
+
 def redirect_index(request):
     return redirect('index', permanent=True)
 
@@ -19,7 +20,5 @@ class Custom404(ErrorMixin):
 
 def custom500(request):
     return curry(server_error, template_name='500.html')
-
-
 
 
