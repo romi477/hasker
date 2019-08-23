@@ -83,3 +83,5 @@ class Reply(models.Model):
     @property
     def total_votes(self):
         return self.votes.count()
+    
+    

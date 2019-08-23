@@ -15,5 +15,8 @@ class PersonTest(TestCase):
     def test_person_creation(self):
         p = self.create_person()
         self.assertTrue(isinstance(p, Person))
-        self.assertEqual(p.get_ava(), 'avatars/def_ava.jpg')
     
+    def test_getting_avatar(self):
+        p = self.create_person()
+        self.assertEqual(p.get_ava(), 'avatars/def_ava.jpg')
+      

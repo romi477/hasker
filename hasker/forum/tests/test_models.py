@@ -3,29 +3,29 @@ from ..models import Question, Reply
 from account.models import Person
 
 
-class QuestionTest(TestCase):
+class ForumModelsTest(TestCase):
     
     @classmethod
     def setUpTestData(cls):
-        p1 = Person.objects.create(
+        asker = Person.objects.create(
             username='testuser',
             email='testusermail@mail.ru',
             password='123testuserqwe'
         )
-        p2 = Person.objects.create(
+        replier = Person.objects.create(
             username='testuser2',
             email='testuser2mail@mail.ru',
             password='123testuser2qwe'
         )
-        q = Question.objects.create(
+        quest = Question.objects.create(
             title='test question title',
             content='this is test question body',
-            author=p1
+            author=asker
         )
         Reply.objects.create(
-            related_q=q,
+            related_q=quest,
             body='that is first reply',
-            author=p2
+            author=replier
         )
         
     def test_question_exists(self):

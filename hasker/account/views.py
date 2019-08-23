@@ -62,13 +62,12 @@ class PersonProfile(View):
 class PersonQuestions(View):
     
     def get(self, request, *args, **kwargs):
-        
         model = apps.get_model('forum', 'Question')
         questions = model.objects.filter(author__id=request.user.id)
         return render(request, 'account/_questions.html', {'questions': questions})
     
 
-class PersonInfo(View):
+class PersonFreeInfo(View):
     
     def get(self, request, *args, **kwargs):
         nickname = kwargs.get('nickname')

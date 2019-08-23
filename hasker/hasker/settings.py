@@ -18,6 +18,7 @@ class Base(Configuration):
 
         'rest_framework',
         'crispy_forms',
+        'tastypie',
 
         'account',
         'forum',
