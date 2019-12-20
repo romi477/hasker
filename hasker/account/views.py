@@ -3,7 +3,7 @@ from django.apps import apps
 from django.views import View
 from django.urls import reverse
 from django.shortcuts import render
-from .forms import PersonForm, PersonProfile
+from .forms import PersonForm, PersonProfileForm
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
@@ -23,7 +23,7 @@ class RegistrationFormView(FormView):
 
 class UpdateProfile(UpdateView):
     model = Person
-    form_class = PersonProfile
+    form_class = PersonProfileForm
     template_name = 'account/person_update_form.html'
 
     def get_object(self, queryset=None):

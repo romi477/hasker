@@ -6,7 +6,7 @@ class Base(Configuration):
 
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
-    SECRET_KEY = 'ak8+)_h8f7-p*%m8t=3&ia)tz8i76_hyp80is11c-6-lxl=d7-'
+    SECRET_KEY = 'ak8+)_h8f7-p*%m8t=3&ia)tz8i76_hyp80is11c-6-lxl=d7-'  # bad practice, i know
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -35,7 +35,7 @@ class Base(Configuration):
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
     
-    ROOT_URLCONF = 'hasker.urls'
+    ROOT_URLCONF = 'config.urls'
     
     AUTH_USER_MODEL = 'account.Person'
     
@@ -58,7 +58,7 @@ class Base(Configuration):
         },
     ]
     
-    WSGI_APPLICATION = 'hasker.wsgi.application'
+    WSGI_APPLICATION = 'config.wsgi.application'
     
     @property
     def DATABASES(self):

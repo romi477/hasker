@@ -1,6 +1,7 @@
 from django.views import View
 from django.db.models import Q
 from django.urls import reverse
+from smtplib import SMTPDataError
 from django.shortcuts import render
 from .forms import QuestionForm, ReplyForm
 from .models import Question, Tag, Reply, Vote
@@ -137,7 +138,11 @@ class ReplyCreate(FormView):
         self.reply = form.save(author=self.author, related_q=self.related_q)
 
         link = self.request.build_absolute_uri(reverse('question_detail', kwargs={'slug': self.kwargs['slug']}))
-        self.reply.send_email(f'Hi, there is new reply: {link}')
+        try:
+            self.reply.send_email(f'Hi, there is new reply: {link}')
+        except SMTPDataError:
+            pass
+
         return super(ReplyCreate, self).form_valid(form)
 
 

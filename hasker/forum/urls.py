@@ -1,6 +1,6 @@
 from .views import *
 from django.urls import path
-from hasker.views import Custom403, Custom404, custom500
+from config.views import Custom403, Custom404, custom500
 
 handler403 = Custom403.as_view()
 handler404 = Custom404.as_view()

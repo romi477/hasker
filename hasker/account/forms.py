@@ -9,7 +9,7 @@ class PersonForm(UserCreationForm):
         fields = ('username', 'email', 'avatar', 'password1', 'password2',)
 
 
-class PersonProfile(UserChangeForm):
+class PersonProfileForm(UserChangeForm):
 
     class Meta:
         model = Person
